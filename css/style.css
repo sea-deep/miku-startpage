@@ -174,18 +174,12 @@ body {
 .site-icon {
     width: 32px;
     height: 32px;
-    background-color: var(--text);
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
     transition: all 0.25s ease;
+    display: block;
 }
 
 .link-card:hover .site-icon {
-    background-color: var(--bg);
+    filter: brightness(0.15) sepia(20%) hue-rotate(200deg) saturate(300%);
 }
 
 .card-title {
