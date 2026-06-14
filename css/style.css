@@ -189,8 +189,23 @@ body {
     text-align: center;
 }
 
+.card-index {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: var(--text-dim);
+    transition: all 0.25s ease;
+    opacity: 0.8;
+}
+
+.link-card:hover .card-index {
+    color: var(--bg);
+}
+
 /* Remove old elements completely */
-.shell-bar, .shell-dots, .shell-time, h1, .prompt, .card-url, .card-index {
+.shell-bar, .shell-dots, .shell-time, h1, .prompt, .card-url {
     display: none;
 }
 

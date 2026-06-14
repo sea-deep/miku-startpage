@@ -1,5 +1,33 @@
 const input = document.getElementById('search-input');
 const list = document.getElementById('suggestions');
+const form = document.querySelector('.search-form');
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        if (document.activeElement === input) {
+            input.blur();
+            clearSuggestions();
+        } else {
+            input.focus();
+        }
+    }
+});
+
+form.addEventListener('submit', (e) => {
+    const val = input.value.trim();
+    if (/^\d+$/.test(val)) {
+        e.preventDefault();
+        const numStr = val.padStart(2, '0');
+        const cards = document.querySelectorAll('.link-card');
+        for (const card of cards) {
+            const indexSpan = card.querySelector('.card-index');
+            if (indexSpan && indexSpan.textContent === numStr) {
+                window.location.href = card.href;
+                return;
+            }
+        }
+    }
+});
 
 function clearSuggestions() {
     list.innerHTML = '';
