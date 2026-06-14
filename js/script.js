@@ -20,7 +20,7 @@ let currentEngine = engines.find(e => e.id === localStorage.getItem('searchEngin
 
 function setEngine(engine) {
     currentEngine = engine;
-    currentEngineLabel.innerHTML = `<img src="assets/icons/engine-${engine.id}.svg" width="16" height="16" style="filter: brightness(0.15) sepia(20%) hue-rotate(200deg) saturate(300%);" alt="${engine.label}">`;
+    currentEngineLabel.innerHTML = `<img src="assets/icons/engine-${engine.id}.svg" class="selected-engine-icon" width="18" height="18" alt="${engine.label}">`;
     form.action = engine.action;
     input.name = engine.param;
     localStorage.setItem('searchEngine', engine.id);
@@ -31,7 +31,7 @@ setEngine(currentEngine);
 engines.forEach(eng => {
     const opt = document.createElement('div');
     opt.className = 'engine-option';
-    opt.innerHTML = `<img src="assets/icons/engine-${eng.id}.svg" width="16" height="16" alt="${eng.label}"><span>${eng.name}</span>`;
+    opt.innerHTML = `<img src="assets/icons/engine-${eng.id}.svg" class="engine-icon" width="16" height="16" alt="${eng.label}"><span>${eng.name}</span>`;
     opt.onclick = (e) => {
         e.stopPropagation();
         setEngine(eng);

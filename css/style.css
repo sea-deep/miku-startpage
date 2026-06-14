@@ -108,21 +108,23 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: 8px;
-    font-weight: 800;
-    font-size: 0.95rem;
-    color: var(--text-dim);
     background: transparent;
     cursor: pointer;
     user-select: none;
     transition: all 0.2s ease;
 }
 
-.engine-selector:hover, .search-form:focus-within .engine-selector {
-    color: var(--accent);
-    background: rgba(57, 197, 187, 0.1);
+.selected-engine-icon {
+    opacity: 0.5;
+    transition: all 0.2s ease;
+}
+
+.engine-selector:hover .selected-engine-icon, .search-form:focus-within .selected-engine-icon {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(57, 197, 187, 0.4));
 }
 
 .engine-dropdown {
@@ -166,6 +168,10 @@ body {
 .engine-option:hover {
     background: var(--accent);
     color: var(--bg);
+}
+
+.engine-option:hover .engine-icon {
+    filter: brightness(0.15) sepia(20%) hue-rotate(200deg) saturate(300%);
 }
 
 .engine-option-abbr {
