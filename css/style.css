@@ -1,0 +1,207 @@
+:root {
+    /* Tokyo Night x Miku Teal Colors (Digital Noir) */
+    --bg: #1a1b26;
+    --line: rgba(57, 197, 187, 0.3);
+    --line-soft: rgba(57, 197, 187, 0.15);
+    --text: #c0caf5;
+    --text-dim: #7aa2f7;
+    --accent: #39c5bb;
+    --mono: "FiraCode Nerd Font", "JetBrains Mono", "Cascadia Code", monospace;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    margin-top: -5vh; /* Slight optical adjustment upwards */
+}
+
+.search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(22, 22, 30, 0.4);
+    border: 1px solid var(--line);
+    border-radius: 24px; /* Sleek pill shape */
+    padding: 16px 24px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.search-form:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 8px 32px rgba(57, 197, 187, 0.1);
+    background: rgba(22, 22, 30, 0.8);
+}
+
+.search-icon {
+    color: var(--text-dim);
+    width: 20px;
+    height: 20px;
+    transition: color 0.3s ease;
+}
+
+.search-form:focus-within .search-icon {
+    color: var(--accent);
+}
+
+#search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    outline: none;
+    font: inherit;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+}
+
+#search-input::placeholder {
+    color: var(--text-dim);
+    opacity: 0.6;
+}
+
+.search-submit {
+    display: none; /* Hide the button for a cleaner look, enter key submits */
+}
+
+/* Suggestions UI */
+#suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(22, 22, 30, 0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--line-soft);
+    border-radius: 16px;
+    margin-top: 12px;
+    z-index: 1000;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+}
+
+#suggestions.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.suggestion-item {
+    padding: 14px 24px;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 0.95rem;
+    border-bottom: 1px solid var(--line-soft);
+    transition: all 0.2s ease;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background: var(--accent);
+    color: var(--bg);
+}
+
+/* Bookmark Grid */
+.links {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 16px;
+}
+
+.link-card {
+    text-decoration: none;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: transparent;
+    border: 1px solid var(--line-soft);
+    border-radius: 16px;
+    padding: 24px 16px;
+    transition: all 0.25s cubic-bezier(0.1, 0.7, 0.1, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.link-card:hover,
+.link-card:focus-visible {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(57, 197, 187, 0.15);
+    outline: none;
+}
+
+.site-icon {
+    width: 32px;
+    height: 32px;
+    background-color: var(--text);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    transition: all 0.25s ease;
+}
+
+.link-card:hover .site-icon {
+    background-color: var(--bg);
+}
+
+.card-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 0.02em;
+    text-align: center;
+}
+
+/* Remove old elements completely */
+.shell-bar, .shell-dots, .shell-time, h1, .prompt, .card-url, .card-index {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .container { gap: 40px; margin-top: 0; }
+    .links { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; }
+    .link-card { padding: 20px 12px; }
+}

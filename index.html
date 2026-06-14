@@ -3,529 +3,105 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Home</title>
+    <title>Startpage</title>
     <!-- Miku Teal Home Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg fill='%2339c5bb' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E">
-    <style>
-        :root {
-            /* Tokyo Night x Miku Teal Colors (Digital Noir) */
-            --bg: #1a1b26;
-            --panel: #16161e;
-            --line: rgba(57, 197, 187, 0.3);
-            --line-soft: rgba(57, 197, 187, 0.15);
-            --text: #c0caf5;
-            --text-dim: #414868;
-            --accent: #39c5bb;
-            --mono: "FiraCode Nerd Font", "JetBrains Mono", "Cascadia Code", monospace;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: var(--mono);
-            min-height: 100vh;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 900px;
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
-        }
-
-        /* Clean Flat Shell */
-        .shell {
-            background: var(--bg);
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            overflow: hidden;
-            /* Zero box-shadow for pure flat Digital Noir aesthetic */
-        }
-
-        .shell-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--line);
-        }
-
-        .shell-dots {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .shell-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #f7768e;
-            opacity: 0.8;
-        }
-        .shell-dot:nth-child(2) { background: #e0af68; }
-        .shell-dot:nth-child(3) { background: #7dcfff; }
-
-        .shell-time {
-            color: var(--text);
-            font-size: 0.85rem;
-            letter-spacing: 0.1em;
-            font-weight: bold;
-        }
-
-        .shell-body {
-            padding: 32px;
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            font-weight: normal;
-            color: var(--text);
-            letter-spacing: -0.02em;
-        }
-
-        .search-wrapper {
-            position: relative;
-            max-width: 760px;
-            width: 100%;
-        }
-
-        .search-form {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: transparent;
-            border: 1px solid var(--line);
-            border-radius: 8px;
-            padding: 14px 16px;
-            transition: all 0.2s ease;
-        }
-        
-        .search-form:focus-within {
-            border-color: var(--accent);
-        }
-
-        .prompt {
-            color: var(--accent);
-            font-size: 1rem;
-            font-weight: bold;
-        }
-
-        #search-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text);
-            outline: none;
-            font: inherit;
-            font-size: 1rem;
-        }
-
-        #search-input::placeholder {
-            color: var(--text-dim);
-        }
-
-        .search-submit {
-            background: transparent;
-            border: 1px solid var(--line);
-            color: var(--accent);
-            border-radius: 6px;
-            padding: 6px 12px;
-            font: inherit;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .search-submit:hover,
-        .search-submit:focus-visible {
-            background: var(--accent);
-            color: var(--bg);
-            border-color: var(--accent);
-        }
-
-        /* Suggestions UI Fixed */
-        #suggestions {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--bg);
-            border: 1px solid var(--line);
-            border-radius: 8px;
-            margin-top: 8px;
-            z-index: 1000;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .suggestion-item {
-            padding: 12px 16px;
-            cursor: pointer;
-            color: var(--text);
-            font-size: 0.95rem;
-            border-bottom: 1px solid var(--line-soft);
-            transition: all 0.2s ease;
-        }
-        
-        .suggestion-item:last-child {
-            border-bottom: none;
-        }
-
-        .suggestion-item:hover {
-            background: var(--accent);
-            color: var(--bg);
-        }
-
-        .links {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 16px;
-        }
-
-        .link-card {
-            text-decoration: none;
-            color: var(--text);
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            background: transparent;
-            border: 1px solid var(--line-soft);
-            border-radius: 8px;
-            padding: 16px;
-            transition: all 0.2s ease;
-        }
-
-        /* The Inversion Hover Rule */
-        .link-card:hover,
-        .link-card:focus-visible {
-            background: var(--accent);
-            color: var(--bg);
-            border-color: var(--accent);
-        }
-
-        .card-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-        }
-
-        .site-icon {
-            width: 28px;
-            height: 28px;
-            transition: color 0.2s ease;
-        }
-
-        .card-index {
-            color: var(--text-dim);
-            font-size: 0.75rem;
-            font-weight: bold;
-            transition: color 0.2s ease;
-        }
-        
-        .link-card:hover .card-index {
-            color: var(--bg);
-            opacity: 0.7;
-        }
-
-        .card-content {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .card-title {
-            font-size: 1rem;
-            font-weight: bold;
-        }
-
-        .card-url {
-            color: var(--text-dim);
-            font-size: 0.8rem;
-            transition: color 0.2s ease;
-        }
-        
-        .link-card:hover .card-url {
-            color: var(--bg);
-            opacity: 0.7;
-        }
-
-        @media (max-width: 600px) {
-            .shell-body { padding: 20px; }
-            .links { grid-template-columns: 1fr 1fr; }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
     <div class="container">
-        <main class="shell">
-            <div class="shell-bar">
-                <div class="shell-dots">
-                    <span class="shell-dot"></span>
-                    <span class="shell-dot"></span>
-                    <span class="shell-dot"></span>
-                </div>
-                <div class="shell-time" id="status-time">--:--:--</div>
-            </div>
+        <!-- Search Bar -->
+        <div class="search-wrapper">
+            <form action="https://www.google.com/search" method="get" class="search-form">
+                <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="search" name="q" id="search-input" placeholder="Search the web..." autocomplete="off" autofocus required>
+                <button type="submit" class="search-submit">Search</button>
+            </form>
+            <div id="suggestions"></div>
+        </div>
 
-            <div class="shell-body">
-                <h1>&gt; welcome dipak<span style="color: var(--accent); animation: blink 1s step-end infinite;">_</span></h1>
-                <style>@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }</style>
-
-                <div class="search-wrapper">
-                    <form action="https://www.google.com/search" method="get" class="search-form">
-                        <span class="prompt">$</span>
-                        <input type="search" name="q" id="search-input" placeholder="search google..." autocomplete="off" autofocus required>
-                        <button type="submit" class="search-submit">go</button>
-                    </form>
-                    <div id="suggestions"></div>
-                </div>
-
-                <section class="links">
-
-                    <a class="link-card" href="https://chat.openai.com/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon"  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-	<path d="M1 578.4C1 259.5 259.5 1 578.4 1h1249.1c319 0 577.5 258.5 577.5 577.4V2406H578.4C259.5 2406 1 2147.5 1 1828.6V578.4z" />
-	<path id="a" d="M1107.3 299.1c-197.999 0-373.9 127.3-435.2 315.3L650 743.5v427.9c0 21.4 11 40.4 29.4 51.4l344.5 198.515V833.3h.1v-27.9L1372.7 604c33.715-19.52 70.44-32.857 108.47-39.828L1447.6 450.3C1361 353.5 1237.1 298.5 1107.3 299.1zm0 117.5-.6.6c79.699 0 156.3 27.5 217.6 78.4-2.5 1.2-7.4 4.3-11 6.1L952.8 709.3c-18.4 10.4-29.4 30-29.4 51.4V1248l-155.1-89.4V755.8c-.1-187.099 151.601-338.9 339-339.2z" />
-	<use xlink:href="#a" transform="rotate(60 1203 1203)"/>
-  	<use xlink:href="#a" transform="rotate(120 1203 1203)"/>
-	<use xlink:href="#a" transform="rotate(180 1203 1203)"/>
-	<use xlink:href="#a" transform="rotate(240 1203 1203)"/>
-	<use xlink:href="#a" transform="rotate(300 1203 1203)"/>
-
-</svg>
-                            <span class="card-index">01</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">ChatGPT</p>
-                            <p class="card-url">chat.openai.com</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://gemini.google.com/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Google Gemini</title><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></svg>
-                            <span class="card-index">02</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">Gemini</p>
-                            <p class="card-url">gemini.google.com</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://web.telegram.org/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Telegram</title><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                            <span class="card-index">03</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">Telegram</p>
-                            <p class="card-url">web.telegram.org</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://mail.google.com/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Gmail</title><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
-                            <span class="card-index">04</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">Gmail</p>
-                            <p class="card-url">mail.google.com</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://mail.proton.me/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Proton</title><path d="M2.474 17.75V24h4.401v-5.979c0-.582.232-1.14.645-1.551a2.204 2.204 0 0 1 1.556-.643h4.513a7.955 7.955 0 0 0 5.612-2.318 7.907 7.907 0 0 0 2.325-5.595 7.91 7.91 0 0 0-2.325-5.596A7.958 7.958 0 0 0 13.587 0H2.474v7.812h4.401V4.129h6.416c.995 0 1.951.394 2.656 1.097.704.7 1.1 1.653 1.101 2.646a3.742 3.742 0 0 1-1.101 2.648 3.766 3.766 0 0 1-2.656 1.097H8.627a6.158 6.158 0 0 0-4.352 1.795 6.133 6.133 0 0 0-1.801 4.338Z"/></svg>
-                            <span class="card-index">05</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">Proton</p>
-                            <p class="card-url">mail.proton.me</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://reddit.com/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Reddit</title><path d="M12 0C5.373 0 0 5.373 0 12c0 3.314 1.343 6.314 3.515 8.485l-2.286 2.286C.775 23.225 1.097 24 1.738 24H12c6.627 0 12-5.373 12-12S18.627 0 12 0Zm4.388 3.199c1.104 0 1.999.895 1.999 1.999 0 1.105-.895 2-1.999 2-.946 0-1.739-.657-1.947-1.539v.002c-1.147.162-2.032 1.15-2.032 2.341v.007c1.776.067 3.4.567 4.686 1.363.473-.363 1.064-.58 1.707-.58 1.547 0 2.802 1.254 2.802 2.802 0 1.117-.655 2.081-1.601 2.531-.088 3.256-3.637 5.876-7.997 5.876-4.361 0-7.905-2.617-7.998-5.87-.954-.447-1.614-1.415-1.614-2.538 0-1.548 1.255-2.802 2.803-2.802.645 0 1.239.218 1.712.585 1.275-.79 2.881-1.291 4.64-1.365v-.01c0-1.663 1.263-3.034 2.88-3.207.188-.911.993-1.595 1.959-1.595Zm-8.085 8.376c-.784 0-1.459.78-1.506 1.797-.047 1.016.64 1.429 1.426 1.429.786 0 1.371-.369 1.418-1.385.047-1.017-.553-1.841-1.338-1.841Zm7.406 0c-.786 0-1.385.824-1.338 1.841.047 1.017.634 1.385 1.418 1.385.785 0 1.473-.413 1.426-1.429-.046-1.017-.721-1.797-1.506-1.797Zm-3.703 4.013c-.974 0-1.907.048-2.77.135-.147.015-.241.168-.183.305.483 1.154 1.622 1.964 2.953 1.964 1.33 0 2.47-.81 2.953-1.964.057-.137-.037-.29-.184-.305-.863-.087-1.795-.135-2.769-.135Z"/></svg>
-                            <span class="card-index">06</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">Reddit</p>
-                            <p class="card-url">reddit.com</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://railway.app/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Railway</title><path d="M.113 10.27A13.026 13.026 0 000 11.48h18.23c-.064-.125-.15-.237-.235-.347-3.117-4.027-4.793-3.677-7.19-3.78-.8-.034-1.34-.048-4.524-.048-1.704 0-3.555.005-5.358.01-.234.63-.459 1.24-.567 1.737h9.342v1.216H.113v.002zm18.26 2.426H.009c.02.326.05.645.094.961h16.955c.754 0 1.179-.429 1.315-.96zm-17.318 4.28s2.81 6.902 10.93 7.024c4.855 0 9.027-2.883 10.92-7.024H1.056zM11.988 0C7.5 0 3.593 2.466 1.531 6.108l4.75-.005v-.002c3.71 0 3.849.016 4.573.047l.448.016c1.563.052 3.485.22 4.996 1.364.82.621 2.007 1.99 2.712 2.965.654.902.842 1.94.396 2.934-.408.914-1.289 1.458-2.353 1.458H.391s.099.42.249.886h22.748A12.026 12.026 0 0024 12.005C24 5.377 18.621 0 11.988 0z"/></svg>
-                            <span class="card-index">07</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">Railway</p>
-                            <p class="card-url">railway.app</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://github.com/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                            <span class="card-index">08</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">GitHub</p>
-                            <p class="card-url">github.com</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://discord.com/app" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Discord</title><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
-                            <span class="card-index">09</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">Discord</p>
-                            <p class="card-url">discord.com/app</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://monkeytype.com/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Monkeytype</title><path d="M20 14.4a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6ZM8.8 14.4h4.8a.8.8 0 1 1 0 1.6H8.8a.8.8 0 1 1 0-1.6ZM7.2 9.6a.8.8 0 0 1 .8.8V12a.8.8 0 1 1-1.6 0v-1.6a.8.8 0 0 1 .8-.8Z M3.201 10.359A2.4 2.4 0 0 1 7.2 8.612a2.4 2.4 0 0 1 4 1.788V12a.8.8 0 1 1-1.6 0v-1.6a.8.8 0 1 0-1.6 0V12a.8.8 0 1 1-1.6 0v-1.6a.8.8 0 1 0-1.6 0V12a.8.8 0 1 1-1.6 0v-1.6l.001-.041ZM17.6 12.8v2.4a.8.8 0 1 1-1.6 0v-2.4h-2.306c-.493 0-.894-.358-.894-.8 0-.442.401-.8.894-.8h6.212c.493 0 .894.358.894.8 0 .442-.401.8-.894.8H17.6ZM16.8 8H20a.8.8 0 1 1 0 1.6h-3.2a.8.8 0 1 1 0-1.6ZM4 14.4h1.6a.8.8 0 1 1 0 1.6H4a.8.8 0 1 1 0-1.6ZM13.2 8h.4a.8.8 0 1 1 0 1.6h-.4a.8.8 0 1 1 0-1.6Z M1.6 14.4H0V8.8c0-2.208 1.792-4 4-4h16c2.208 0 4 1.792 4 4v6.4c0 2.208-1.792 4-4 4H4c-2.208 0-4-1.792-4-4v-1.6h1.6v1.6A2.4 2.4 0 0 0 4 17.6h16a2.4 2.4 0 0 0 2.4-2.4V8.8A2.4 2.4 0 0 0 20 6.4H4a2.4 2.4 0 0 0-2.4 2.4v5.6Z"/></svg>
-                            <span class="card-index">10</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">Monkeytype</p>
-                            <p class="card-url">monkeytype.com</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://docs.google.com/document/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Google Docs</title><path d="M14.727 6.727H14V0H4.91c-.905 0-1.637.732-1.637 1.636v20.728c0 .904.732 1.636 1.636 1.636h14.182c.904 0 1.636-.732 1.636-1.636V6.727h-6zm-.545 10.455H7.09v-1.364h7.09v1.364zm2.727-3.273H7.091v-1.364h9.818v1.364zm0-3.273H7.091V9.273h9.818v1.363zM14.727 6h6l-6-6v6z"/></svg>
-                            <span class="card-index">11</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">Google Docs</p>
-                            <p class="card-url">docs.google.com</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://docs.google.com/presentation/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Google Slides</title><path d="M16.09 15.273H7.91v-4.637h8.18v4.637zm1.728-8.523h2.91v15.614c0 .904-.733 1.636-1.637 1.636H4.909a1.636 1.636 0 0 1-1.636-1.636V1.636C3.273.732 4.005 0 4.909 0h9.068v6.75h3.841zm-.363 2.523H6.545v7.363h10.91V9.273zm-2.728-5.979V6h6.001l-6-6v3.294z"/></svg>
-                            <span class="card-index">12</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">Google Slides</p>
-                            <p class="card-url">docs.google.com</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            File not found: /v1/AUTH_mw/wikipedia-commons-local-public.ca/c/ca/LinkedIn_logo_initials.svg
-                            <span class="card-index">13</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">LinkedIn</p>
-                            <p class="card-url">linkedin.com</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://www.fiverr.com/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Fiverr</title><path d="M23.004 15.588a.995.995 0 1 0 .002-1.99.995.995 0 0 0-.002 1.99zm-.996-3.705h-.85c-.546 0-.84.41-.84 1.092v2.466h-1.61v-3.558h-.684c-.547 0-.84.41-.84 1.092v2.466h-1.61v-4.874h1.61v.74c.264-.574.626-.74 1.163-.74h1.972v.74c.264-.574.625-.74 1.162-.74h.527v1.316zm-6.786 1.501h-3.359c.088.546.43.858 1.006.858.43 0 .732-.175.83-.487l1.425.4c-.351.848-1.22 1.364-2.255 1.364-1.748 0-2.549-1.355-2.549-2.515 0-1.14.703-2.505 2.45-2.505 1.856 0 2.471 1.384 2.471 2.408 0 .224-.01.37-.02.477zm-1.562-.945c-.04-.42-.342-.81-.889-.81-.508 0-.81.225-.908.81h1.797zM7.508 15.44h1.416l1.767-4.874h-1.62l-.86 2.837-.878-2.837H5.72l1.787 4.874zm-6.6 0H2.51v-3.558h1.524v3.558h1.591v-4.874H2.51v-.302c0-.332.235-.536.606-.536h.918V8.412H2.85c-1.162 0-1.943.712-1.943 1.755v.4H0v1.316h.908v3.558z"/></svg>
-                            <span class="card-index">14</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">Fiverr</p>
-                            <p class="card-url">fiverr.com</p>
-                        </div>
-                    </a>
-
-                    <a class="link-card" href="https://youtube.com/" target="_blank" rel="noreferrer">
-                        <div class="card-top">
-                            <svg class="site-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                            <span class="card-index">15</span>
-                        </div>
-                        <div class="card-content">
-                            <p class="card-title">YouTube</p>
-                            <p class="card-url">youtube.com</p>
-                        </div>
-                    </a>
-
-                </section>
-            </div>
-        </main>
+        <!-- Bookmarks Grid -->
+        <section class="links">
+            <a class="link-card" href="https://chat.openai.com/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/chatgpt.svg'); -webkit-mask-image: url('assets/icons/chatgpt.svg');"></div>
+                <span class="card-title">ChatGPT</span>
+            </a>
+            
+            <a class="link-card" href="https://gemini.google.com/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/gemini.svg'); -webkit-mask-image: url('assets/icons/gemini.svg');"></div>
+                <span class="card-title">Gemini</span>
+            </a>
+            
+            <a class="link-card" href="https://web.telegram.org/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/telegram.svg'); -webkit-mask-image: url('assets/icons/telegram.svg');"></div>
+                <span class="card-title">Telegram</span>
+            </a>
+            
+            <a class="link-card" href="https://mail.google.com/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/gmail.svg'); -webkit-mask-image: url('assets/icons/gmail.svg');"></div>
+                <span class="card-title">Gmail</span>
+            </a>
+            
+            <a class="link-card" href="https://mail.proton.me/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/proton.svg'); -webkit-mask-image: url('assets/icons/proton.svg');"></div>
+                <span class="card-title">Proton</span>
+            </a>
+            
+            <a class="link-card" href="https://reddit.com/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/reddit.svg'); -webkit-mask-image: url('assets/icons/reddit.svg');"></div>
+                <span class="card-title">Reddit</span>
+            </a>
+            
+            <a class="link-card" href="https://railway.app/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/railway.svg'); -webkit-mask-image: url('assets/icons/railway.svg');"></div>
+                <span class="card-title">Railway</span>
+            </a>
+            
+            <a class="link-card" href="https://github.com/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/github.svg'); -webkit-mask-image: url('assets/icons/github.svg');"></div>
+                <span class="card-title">GitHub</span>
+            </a>
+            
+            <a class="link-card" href="https://discord.com/app" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/discord.svg'); -webkit-mask-image: url('assets/icons/discord.svg');"></div>
+                <span class="card-title">Discord</span>
+            </a>
+            
+            <a class="link-card" href="https://monkeytype.com/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/monkeytype.svg'); -webkit-mask-image: url('assets/icons/monkeytype.svg');"></div>
+                <span class="card-title">Monkeytype</span>
+            </a>
+            
+            <a class="link-card" href="https://docs.google.com/document/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/google-docs.svg'); -webkit-mask-image: url('assets/icons/google-docs.svg');"></div>
+                <span class="card-title">Google Docs</span>
+            </a>
+            
+            <a class="link-card" href="https://docs.google.com/presentation/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/google-slides.svg'); -webkit-mask-image: url('assets/icons/google-slides.svg');"></div>
+                <span class="card-title">Google Slides</span>
+            </a>
+            
+            <a class="link-card" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/linkedin.svg'); -webkit-mask-image: url('assets/icons/linkedin.svg');"></div>
+                <span class="card-title">LinkedIn</span>
+            </a>
+            
+            <a class="link-card" href="https://www.fiverr.com/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/fiverr.svg'); -webkit-mask-image: url('assets/icons/fiverr.svg');"></div>
+                <span class="card-title">Fiverr</span>
+            </a>
+            
+            <a class="link-card" href="https://youtube.com/" target="_blank" rel="noreferrer">
+                <div class="site-icon" style="mask-image: url('assets/icons/youtube.svg'); -webkit-mask-image: url('assets/icons/youtube.svg');"></div>
+                <span class="card-title">YouTube</span>
+            </a>
+        </section>
     </div>
 
-    <script>
-        const input = document.getElementById('search-input');
-        const list = document.getElementById('suggestions');
-        const timeNode = document.getElementById('status-time');
-
-        function renderClock() {
-            const formatter = new Intl.DateTimeFormat('en-US', {
-                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-            });
-            timeNode.textContent = formatter.format(new Date());
-        }
-
-        function clearSuggestions() { list.innerHTML = ''; }
-
-        function handleSuggestions(data) {
-            const results = Array.isArray(data?.[1]) ? data[1] : [];
-            if (!results.length) return clearSuggestions();
-            list.innerHTML = results.slice(0, 6).map((s) => `<div class="suggestion-item">${s}</div>`).join('');
-        }
-
-        input.addEventListener('input', () => {
-            const query = input.value.trim();
-            if (query.length < 2) return clearSuggestions();
-            const script = document.createElement('script');
-            script.src = `https://suggestqueries.google.com/complete/search?client=chrome&q=${encodeURIComponent(query)}&callback=handleSuggestions`;
-            const oldScript = document.getElementById('jsonp-script');
-            if (oldScript) oldScript.remove();
-            script.id = 'jsonp-script';
-            document.body.appendChild(script);
-        });
-
-        list.addEventListener('click', (event) => {
-            const item = event.target.closest('.suggestion-item');
-            if (!item) return;
-            input.value = item.textContent;
-            clearSuggestions();
-            input.form.submit();
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.search-wrapper')) clearSuggestions();
-        });
-
-        renderClock();
-        window.addEventListener('load', () => input.focus());
-        window.setInterval(renderClock, 1000);
-        window.handleSuggestions = handleSuggestions;
-    </script>
+    <script src="js/script.js"></script>
 </body>
 </html>
