@@ -10,13 +10,18 @@
 </head>
 <body>
     <div class="container">
+        
+        <header class="hero-header">
+            <h1 class="hero-title">ミク<span class="highlight">_</span></h1>
+        </header>
+
         <!-- Search Bar -->
         <div class="search-wrapper">
-            <form action="https://www.google.com/search" method="get" class="search-form">
-                <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
+            <form action="https://www.google.com/search" method="get" class="search-form" id="search-form">
+                <div class="engine-selector" id="engine-selector" tabindex="0" title="Select Search Engine">
+                    <span id="current-engine-label">G</span>
+                    <div class="engine-dropdown" id="engine-dropdown"></div>
+                </div>
                 <input type="search" name="q" id="search-input" placeholder="Search the web..." autocomplete="off" autofocus required>
                 <button type="submit" class="search-submit">Search</button>
             </form>

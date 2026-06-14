@@ -1,9 +1,54 @@
 const input = document.getElementById('search-input');
 const list = document.getElementById('suggestions');
 const form = document.querySelector('.search-form');
+const engineSelector = document.getElementById('engine-selector');
+const engineDropdown = document.getElementById('engine-dropdown');
+const currentEngineLabel = document.getElementById('current-engine-label');
+
+const engines = [
+    { id: 'google', label: 'G', name: 'Google', action: 'https://www.google.com/search', param: 'q' },
+    { id: 'duckduckgo', label: 'D', name: 'DuckDuckGo', action: 'https://duckduckgo.com/', param: 'q' },
+    { id: 'bing', label: 'B', name: 'Bing', action: 'https://www.bing.com/search', param: 'q' },
+    { id: 'startpage', label: 'S', name: 'Startpage', action: 'https://www.startpage.com/sp/search', param: 'query' },
+    { id: 'yandex', label: 'Y', name: 'Yandex', action: 'https://yandex.com/search/', param: 'text' },
+    { id: 'brave', label: 'BR', name: 'Brave', action: 'https://search.brave.com/search', param: 'q' },
+    { id: 'ecosia', label: 'E', name: 'Ecosia', action: 'https://www.ecosia.org/search', param: 'q' },
+    { id: 'kagi', label: 'K', name: 'Kagi', action: 'https://kagi.com/search', param: 'q' }
+];
+
+let currentEngine = engines.find(e => e.id === localStorage.getItem('searchEngine')) || engines[0];
+
+function setEngine(engine) {
+    currentEngine = engine;
+    currentEngineLabel.innerHTML = `<img src="assets/icons/engine-${engine.id}.svg" width="16" height="16" style="filter: brightness(0.15) sepia(20%) hue-rotate(200deg) saturate(300%);" alt="${engine.label}">`;
+    form.action = engine.action;
+    input.name = engine.param;
+    localStorage.setItem('searchEngine', engine.id);
+}
+
+// Initialize
+setEngine(currentEngine);
+engines.forEach(eng => {
+    const opt = document.createElement('div');
+    opt.className = 'engine-option';
+    opt.innerHTML = `<img src="assets/icons/engine-${eng.id}.svg" width="16" height="16" alt="${eng.label}"><span>${eng.name}</span>`;
+    opt.onclick = (e) => {
+        e.stopPropagation();
+        setEngine(eng);
+        engineSelector.classList.remove('open');
+        input.focus();
+    };
+    engineDropdown.appendChild(opt);
+});
+
+engineSelector.addEventListener('click', (e) => {
+    e.stopPropagation();
+    engineSelector.classList.toggle('open');
+});
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+        engineSelector.classList.remove('open');
         if (document.activeElement === input) {
             input.blur();
             clearSuggestions();
@@ -69,6 +114,7 @@ document.addEventListener('click', (e) => {
     if (!e.target.closest('.search-wrapper')) {
         clearSuggestions();
     }
+    engineSelector.classList.remove('open');
 });
 
 window.addEventListener('load', () => input.focus());
